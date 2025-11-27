@@ -2,47 +2,42 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
+    <!-- FIX: รองรับมือถือ -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DMK ระบบตรวจสอบค่าเสียหายและรายได้</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Sarabun', sans-serif; }
-        .page-hidden { display: none; }
-        /* Loading Spinner Animation */
+        /* Animation */
         .loader {
             border-top-color: #3b82f6;
             -webkit-animation: spinner 1.5s linear infinite;
             animation: spinner 1.5s linear infinite;
         }
-        @keyframes spinner {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen text-gray-800">
 
     <!-- 1. LOGIN PAGE -->
-    <div id="login-page" class="min-h-screen flex items-center justify-center p-4">
+    <!-- ใช้ class 'hidden' ของ Tailwind เพื่อซ่อน/แสดง -->
+    <div id="login-page" class="min-h-screen flex flex-col items-center justify-center p-4">
         <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md border border-gray-200">
             <div class="text-center mb-8">
-                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                </div>
-                <h1 class="text-2xl font-bold text-gray-800">ระบบตรวจสอบค่าเสียหายและรายได้</h1>
+                <h1 class="text-2xl font-bold text-gray-800">ระบบตรวจสอบ</h1>
                 <p class="text-gray-500 text-sm mt-1">DMK Tracking</p>
             </div>
             
             <form id="login-form" class="space-y-5">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">ID พนักงาน</label>
-                    <input type="text" id="login-id" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="เช่น 12345" required>
+                    <input type="text" id="login-id" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="เช่น 12345" required>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">รหัสผ่าน</label>
-                    <input type="password" id="login-pass" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="กรอกรหัสผ่าน" required>
-                    <p class="text-xs text-gray-400 mt-1">*ถ้ารหัสสั้น ระบบจะเติม 0 ต่อท้ายให้อัตโนมัติ</p>
+                    <input type="password" id="login-pass" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="กรอกรหัสผ่าน" required>
+                    <p class="text-xs text-gray-400 mt-1">*ระบบเติม 0 ให้อัตโนมัติถ้ารหัสสั้น</p>
                 </div>
                 <button type="submit" id="btn-login-submit" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-md">
                     เข้าสู่ระบบ
@@ -54,131 +49,83 @@
     </div>
 
     <!-- 2. DASHBOARD PAGE -->
-    <div id="dashboard-page" class="page-hidden pb-20">
+    <div id="dashboard-page" class="hidden pb-20">
         <!-- Navbar -->
-        <nav class="bg-gradient-to-r from-blue-800 to-blue-600 text-white p-4 shadow-lg sticky top-0 z-10">
+        <nav class="bg-blue-700 text-white p-4 shadow-lg sticky top-0 z-10">
             <div class="container mx-auto max-w-2xl flex justify-between items-center">
                 <div>
-                    <h1 class="font-bold text-lg tracking-wide">ระบบตรวจสอบค่าเสียหายและรายได้</h1>
-                    <div class="flex items-center text-xs text-blue-100 mt-0.5">
-                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                        <span id="user-info">กำลังโหลด...</span>
-                    </div>
+                    <h1 class="font-bold text-lg">DMK Tracking</h1>
+                    <div class="text-xs text-blue-200 mt-0.5" id="user-info">Loading...</div>
                 </div>
                 <div class="flex gap-2">
-                    <button id="btn-change-pass" class="bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-md text-sm transition backdrop-blur-sm">
-                        เปลี่ยนรหัส
-                    </button>
-                    <button id="btn-logout" class="bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded-md text-sm transition shadow-sm">
-                        ออก
-                    </button>
+                    <button id="btn-change-pass" class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-sm transition">รหัสผ่าน</button>
+                    <button id="btn-logout" class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-sm transition">ออก</button>
                 </div>
             </div>
         </nav>
 
         <!-- Content -->
         <div class="container mx-auto p-4 max-w-2xl mt-4">
-            
             <!-- Date Filter -->
-            <div class="bg-white p-4 rounded-xl shadow-sm mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-3 border border-gray-100">
-                <label class="font-bold text-gray-700 whitespace-nowrap flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                    รอบเดือนบัญชี:
-                </label>
-                <input type="month" id="month-picker" class="border-gray-300 border p-2.5 rounded-lg w-full sm:w-auto flex-grow focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50 text-gray-700 font-medium">
+            <div class="bg-white p-4 rounded-xl shadow-sm mb-6 flex flex-col sm:flex-row items-center gap-3">
+                <label class="font-bold text-gray-700 whitespace-nowrap">รอบเดือนบัญชี:</label>
+                <input type="month" id="month-picker" class="border-gray-300 border p-2 rounded-lg w-full sm:w-auto flex-grow bg-gray-50 font-medium">
             </div>
 
-            <!-- Data Cards Container -->
-            <div id="data-content" class="space-y-4">
-                
-                <!-- Card 1: Short Cash -->
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-1.5 h-full bg-red-500"></div>
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-gray-500 text-sm font-medium uppercase tracking-wider">1.1 ค่าเสียหาย Short Cash</h3>
-                        <span class="bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full font-bold">Cash</span>
-                    </div>
-                    <p class="text-3xl font-bold text-gray-800 mt-1">
-                        <span id="val-short-cash">0</span> <span class="text-sm text-gray-400 font-normal">บาท</span>
-                    </p>
+            <!-- Data Content -->
+            <div id="data-content" class="space-y-4 hidden">
+                <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-red-500">
+                    <h3 class="text-gray-500 text-xs font-bold uppercase">1.1 ค่าเสียหาย Short Cash</h3>
+                    <p class="text-2xl font-bold text-gray-800 mt-1"><span id="val-short-cash">0</span> <span class="text-sm text-gray-400 font-normal">บาท</span></p>
                 </div>
-
-                <!-- Card 2: Short Credit -->
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-1.5 h-full bg-orange-500"></div>
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-gray-500 text-sm font-medium uppercase tracking-wider">1.2 ค่าเสียหาย Short Credit</h3>
-                        <span class="bg-orange-100 text-orange-600 text-xs px-2 py-1 rounded-full font-bold">Credit</span>
-                    </div>
-                    <p class="text-3xl font-bold text-gray-800 mt-1">
-                        <span id="val-short-credit">0</span> <span class="text-sm text-gray-400 font-normal">บาท</span>
-                    </p>
+                <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-orange-500">
+                    <h3 class="text-gray-500 text-xs font-bold uppercase">1.2 ค่าเสียหาย Short Credit</h3>
+                    <p class="text-2xl font-bold text-gray-800 mt-1"><span id="val-short-credit">0</span> <span class="text-sm text-gray-400 font-normal">บาท</span></p>
                 </div>
-
-                <!-- Card 3: Refund -->
-                <div class="bg-white p-0 rounded-xl shadow-sm border border-gray-100 relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-1.5 h-full bg-green-500"></div>
-                    <div class="p-5">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-gray-500 text-sm font-medium uppercase tracking-wider">2. ยอดเงินคืน (Short Credit)</h3>
-                            <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full font-bold">Refund</span>
-                        </div>
-                        <p class="text-3xl font-bold text-green-600 mt-1">
-                            <span id="val-refund">0</span> <span class="text-sm text-gray-400 font-normal">บาท</span>
-                        </p>
-                    </div>
-                    
-                    <!-- Summary Footer -->
-                    <div class="bg-gray-50 px-5 py-3 border-t border-gray-100 flex justify-between items-center">
-                        <span class="text-gray-500 text-sm">คงเหลือที่ต้องชำระ (Credit):</span>
-                        <span class="font-bold text-gray-800 text-lg" id="val-balance">0 บาท</span>
+                <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-green-500">
+                    <h3 class="text-gray-500 text-xs font-bold uppercase">2. ยอดเงินคืน (Short Credit)</h3>
+                    <p class="text-2xl font-bold text-green-600 mt-1"><span id="val-refund">0</span> <span class="text-sm text-gray-400 font-normal">บาท</span></p>
+                    <div class="mt-3 pt-3 border-t text-sm flex justify-between">
+                        <span class="text-gray-500">คงเหลือที่ต้องชำระ:</span>
+                        <span class="font-bold text-gray-800" id="val-balance">0 บาท</span>
                     </div>
                 </div>
-
             </div>
             
-            <!-- Loading State -->
+            <!-- Loading -->
             <div id="dash-loading" class="text-center py-12 hidden">
                 <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-10 w-10 mx-auto mb-4"></div>
-                <p class="text-gray-500 text-sm">กำลังเชื่อมต่อฐานข้อมูล...</p>
+                <p class="text-gray-500 text-sm">กำลังโหลดข้อมูล...</p>
             </div>
             
-            <!-- No Data State -->
+            <!-- No Data -->
             <div id="no-data" class="text-center py-12 hidden bg-white rounded-xl border-2 border-dashed border-gray-200">
-                <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                 <p class="text-gray-500 font-medium">ไม่พบข้อมูลของเดือนนี้</p>
-                <p class="text-gray-400 text-xs mt-1">กรุณาเลือกเดือนอื่น หรือติดต่อ Admin</p>
+                <p class="text-gray-400 text-xs mt-2 font-mono bg-gray-100 inline-block px-2 py-1 rounded" id="debug-path">Path: ...</p>
+                <p class="text-gray-400 text-xs mt-2">กรุณาตรวจสอบว่า Admin ได้กดซิงค์ข้อมูลแล้ว</p>
             </div>
-
         </div>
     </div>
 
-    <!-- 3. CHANGE PASSWORD MODAL -->
+    <!-- 3. Change Password Modal -->
     <div id="pass-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 hidden z-50">
-        <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-sm transform transition-all scale-100">
-            <h2 class="text-xl font-bold mb-1 text-gray-800">เปลี่ยนรหัสผ่าน</h2>
-            <p class="text-gray-500 text-sm mb-4">กำหนดรหัสผ่านใหม่เพื่อความปลอดภัย</p>
-            
+        <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-sm">
+            <h2 class="text-xl font-bold mb-4">เปลี่ยนรหัสผ่าน</h2>
             <form id="pass-form" class="space-y-4">
-                <div>
-                    <label class="text-sm font-medium text-gray-700">รหัสผ่านใหม่ (ขั้นต่ำ 6 ตัว)</label>
-                    <input type="password" id="new-pass" class="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required minlength="6" placeholder="กรอกรหัสใหม่">
-                </div>
-                <div class="flex justify-end gap-3 pt-2">
-                    <button type="button" id="btn-close-modal" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition">ยกเลิก</button>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium shadow-lg shadow-blue-200 transition">บันทึกรหัสผ่าน</button>
+                <input type="password" id="new-pass" class="w-full p-3 border rounded-lg" required minlength="6" placeholder="รหัสผ่านใหม่">
+                <div class="flex justify-end gap-2">
+                    <button type="button" id="btn-close-modal" class="px-4 py-2 text-gray-600 bg-gray-100 rounded-lg">ยกเลิก</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg">บันทึก</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Firebase Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // --- Config ---
         const firebaseConfig = {
             apiKey: "AIzaSyCl-1kUPk7YP0AZoKqVs9d_Z7vWeXytQnk",
             authDomain: "dmk-cashcard-2025.firebaseapp.com",
@@ -197,63 +144,61 @@
         let currentUser = null;
         let unsubscribeData = null;
 
-        // --- AUTH STATE ---
+        // --- AUTH STATE CHANGE ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                // User is logged in
+                // User Logged In
                 currentUser = user;
-                document.getElementById('login-page').classList.add('page-hidden');
-                document.getElementById('dashboard-page').classList.remove('page-hidden');
                 
-                // Set current month as default
+                // FIX: ใช้ classList.add/remove('hidden') เพื่อความชัวร์
+                document.getElementById('login-page').classList.add('hidden');
+                document.getElementById('dashboard-page').classList.remove('hidden');
+                
+                // Default Month
                 if (!document.getElementById('month-picker').value) {
-                    const now = new Date();
-                    // Format: YYYY-MM
-                    const monthStr = now.toISOString().slice(0, 7); 
-                    document.getElementById('month-picker').value = monthStr;
+                    document.getElementById('month-picker').value = new Date().toISOString().slice(0, 7);
                 }
                 
-                // Fetch User Name
+                // Get Name
                 const empId = user.email.split('@')[0];
-                const userDocRef = doc(db, `artifacts/${APP_ID}/users/${empId}`);
-                
                 try {
-                    const userSnap = await getDoc(userDocRef);
+                    const userSnap = await getDoc(doc(db, `artifacts/${APP_ID}/users/${empId}`));
                     const name = userSnap.exists() ? userSnap.data().name : empId;
                     document.getElementById('user-info').textContent = `${name} (${empId})`;
                 } catch (e) {
-                    console.error("Name fetch error:", e);
-                    document.getElementById('user-info').textContent = `พนักงาน ${empId}`;
+                    document.getElementById('user-info').textContent = empId;
                 }
 
-                // Load data for current selection
                 loadData(document.getElementById('month-picker').value);
 
             } else {
-                // User is logged out
+                // User Logged Out
                 currentUser = null;
-                document.getElementById('login-page').classList.remove('page-hidden');
-                document.getElementById('dashboard-page').classList.add('page-hidden');
-                if(unsubscribeData) unsubscribeData();
+                document.getElementById('login-page').classList.remove('hidden');
+                document.getElementById('dashboard-page').classList.add('hidden');
                 
-                // Clear form
+                if(unsubscribeData) unsubscribeData();
                 document.getElementById('login-form').reset();
+                
+                const btn = document.getElementById('btn-login-submit');
+                btn.disabled = false;
+                btn.innerText = "เข้าสู่ระบบ";
                 document.getElementById('login-error').classList.add('hidden');
-                document.getElementById('btn-login-submit').disabled = false;
-                document.getElementById('btn-login-submit').innerText = "เข้าสู่ระบบ";
             }
         });
 
-        // --- LOAD DATA FUNCTION ---
+        // --- DATA LOADING ---
         function loadData(yearMonth) { 
             if (!yearMonth) return;
             if (unsubscribeData) unsubscribeData();
             
             const empId = currentUser.email.split('@')[0];
-            // Path: artifacts/APP_ID/users/12345/records/2025-11
+            // Path Pattern: records/YYYY-MM
             const docPath = `artifacts/${APP_ID}/users/${empId}/records/${yearMonth}`;
             
-            // UI States
+            // Update Debug Info
+            document.getElementById('debug-path').innerText = `Checking: .../users/${empId}/records/${yearMonth}`;
+
             document.getElementById('dash-loading').classList.remove('hidden');
             document.getElementById('data-content').classList.add('hidden');
             document.getElementById('no-data').classList.add('hidden');
@@ -262,7 +207,6 @@
                 document.getElementById('dash-loading').classList.add('hidden');
                 
                 if (docSnap.exists()) {
-                    // Data found
                     const data = docSnap.data();
                     document.getElementById('data-content').classList.remove('hidden');
                     
@@ -274,35 +218,25 @@
                     updateVal('val-short-credit', scr);
                     updateVal('val-refund', ref);
                     
-                    // Balance logic: (Short Credit - Refund)
-                    // Note: Adjust logic if Short Cash should be included
                     const balance = scr - ref;
-                    const balanceEl = document.getElementById('val-balance');
-                    balanceEl.textContent = balance.toLocaleString('th-TH', {minimumFractionDigits: 0}) + ' บาท';
-                    
-                    // Color coding for balance
-                    if (balance > 0) balanceEl.className = "font-bold text-lg text-red-600";
-                    else balanceEl.className = "font-bold text-lg text-green-600";
-
+                    const balEl = document.getElementById('val-balance');
+                    balEl.textContent = balance.toLocaleString('th-TH', {minimumFractionDigits: 0}) + ' บาท';
+                    balEl.className = balance > 0 ? "font-bold text-lg text-red-600" : "font-bold text-lg text-green-600";
                 } else {
-                    // No data found for this month
                     document.getElementById('no-data').classList.remove('hidden');
                 }
             }, (error) => {
-                console.error("Firestore Error:", error);
+                console.error(error);
                 document.getElementById('dash-loading').classList.add('hidden');
-                alert("เกิดข้อผิดพลาดในการโหลดข้อมูล: " + error.message);
+                alert("Error: " + error.message);
             });
         }
 
-        function updateVal(elementId, number) {
-            // Animate number or just set text
-            document.getElementById(elementId).textContent = number.toLocaleString('th-TH', {minimumFractionDigits: 0});
+        function updateVal(id, num) {
+            document.getElementById(id).textContent = num.toLocaleString('th-TH', {minimumFractionDigits: 0});
         }
 
-        // --- EVENT LISTENERS ---
-        
-        // 1. Login Submit
+        // --- EVENTS ---
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btn-login-submit');
@@ -315,89 +249,47 @@
             const id = document.getElementById('login-id').value.trim();
             let pass = document.getElementById('login-pass').value.trim();
             
-            // --- แก้ไข: เติม 0 อัตโนมัติ ---
             if (pass.length > 0 && pass.length < 6) {
-                while (pass.length < 6) {
-                    pass += '0';
-                }
-                console.log("Auto-padding password...");
+                while (pass.length < 6) pass += '0';
             }
-            // -------------------------
-
-            // --- แก้ไข: ป้องกันการค้าง (Timeout) ---
-            const timeoutPromise = new Promise((_, reject) => 
-                setTimeout(() => reject(new Error('Timeout')), 15000) // 15 วินาที
-            );
 
             try {
-                await Promise.race([
-                    signInWithEmailAndPassword(auth, `${id}@company.demo`, pass),
-                    timeoutPromise
-                ]);
-                // ถ้าสำเร็จ onAuthStateChanged จะจัดการต่อ
+                await signInWithEmailAndPassword(auth, `${id}@company.demo`, pass);
             } catch (err) {
+                btn.disabled = false;
+                btn.innerText = "เข้าสู่ระบบ";
                 errEl.classList.remove('hidden');
-                
-                if (err.message === 'Timeout') {
-                    errEl.textContent = "การเชื่อมต่อใช้เวลานานผิดปกติ กรุณาตรวจสอบอินเทอร์เน็ต";
-                } else if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
-                    errEl.textContent = "ID หรือ รหัสผ่านไม่ถูกต้อง (ถ้ารหัสสั้น ระบบจะเติม 0 ต่อท้ายให้อัตโนมัติ)";
-                } else if (err.code === 'auth/too-many-requests') {
-                    errEl.textContent = "ลองบ่อยเกินไป กรุณารอสักครู่";
+                if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
+                    errEl.textContent = "ID หรือ รหัสผ่านไม่ถูกต้อง";
                 } else {
-                    errEl.textContent = "เกิดข้อผิดพลาด: " + err.code;
-                }
-            } finally {
-                // --- แก้ไข: คืนค่าปุ่มเสมอ ---
-                if (!auth.currentUser) {
-                    btn.disabled = false;
-                    btn.innerText = "เข้าสู่ระบบ";
+                    errEl.textContent = "Error: " + err.code;
                 }
             }
         });
 
-        // 2. Logout
         document.getElementById('btn-logout').addEventListener('click', () => {
             if(confirm('ต้องการออกจากระบบ?')) signOut(auth);
         });
 
-        // 3. Month Changed
-        document.getElementById('month-picker').addEventListener('change', (e) => {
-            loadData(e.target.value);
-        });
+        document.getElementById('month-picker').addEventListener('change', (e) => loadData(e.target.value));
 
-        // 4. Change Password Modal Logic
+        // Password Modal
         const modal = document.getElementById('pass-modal');
         document.getElementById('btn-change-pass').addEventListener('click', () => modal.classList.remove('hidden'));
         document.getElementById('btn-close-modal').addEventListener('click', () => modal.classList.add('hidden'));
         
         document.getElementById('pass-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const newPass = document.getElementById('new-pass').value;
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            
-            submitBtn.disabled = true;
-            submitBtn.innerText = "กำลังบันทึก...";
-
             try {
-                await updatePassword(currentUser, newPass);
+                await updatePassword(currentUser, document.getElementById('new-pass').value);
                 alert('เปลี่ยนรหัสผ่านสำเร็จ! กรุณาเข้าสู่ระบบใหม่');
                 modal.classList.add('hidden');
                 document.getElementById('pass-form').reset();
-                signOut(auth); // Logout user to force re-login with new pass
+                signOut(auth);
             } catch (err) {
-                if (err.code === 'auth/requires-recent-login') {
-                    alert('เพื่อความปลอดภัย กรุณาออกจากระบบและเข้าสู่ระบบใหม่อีกครั้ง ก่อนเปลี่ยนรหัสผ่าน');
-                    modal.classList.add('hidden');
-                } else {
-                    alert('เกิดข้อผิดพลาด: ' + err.message);
-                }
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerText = "บันทึกรหัสผ่าน";
+                alert(err.message);
             }
         });
-
     </script>
 </body>
 </html>
