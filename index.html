@@ -21,6 +21,7 @@
                 <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
+                <!-- แก้ไขหัวข้อหน้า Login -->
                 <h1 class="text-2xl font-bold text-gray-800">DMK ระบบตรวจสอบค่าเสียหายและรายได้</h1>
                 <p class="text-gray-500 text-sm mt-1">DMK Tracking System</p>
             </div>
@@ -57,7 +58,7 @@
                     </div>
                 </div>
                 <div class="flex gap-2">
-                    <button id="btn-change-pass" class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-sm transition backdrop-blur-sm">เปลี่ยนรหัสผ่าน</button>
+                    <button id="btn-change-pass" class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-sm transition backdrop-blur-sm">รหัสผ่าน</button>
                     <button id="btn-logout" class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-sm transition shadow-sm">ออก</button>
                 </div>
             </div>
@@ -84,7 +85,6 @@
                             <p class="text-2xl font-bold"><span id="total-cash">0</span></p>
                             <p class="text-xs opacity-60">บาท</p>
                         </div>
-                        <!-- แสดงจำนวนครั้ง -->
                         <div class="mt-2 pt-2 border-t border-white/10">
                             <p class="text-xs font-medium text-yellow-300">
                                 <span id="count-cash">0</span> ครั้ง
@@ -99,7 +99,6 @@
                             <p class="text-2xl font-bold"><span id="total-credit">0</span></p>
                             <p class="text-xs opacity-60">บาท</p>
                         </div>
-                        <!-- แสดงจำนวนครั้ง -->
                         <div class="mt-2 pt-2 border-t border-white/10">
                             <p class="text-xs font-medium text-yellow-300">
                                 <span id="count-credit">0</span> ครั้ง
@@ -120,6 +119,8 @@
                     </div>
                 </div>
                 
+                <!-- ลบยอดปริมาณงานรวมออก -->
+            </div>
 
             <!-- 2. Month Filter -->
             <div class="bg-white p-4 rounded-xl shadow-sm flex flex-col sm:flex-row items-center gap-3 border border-gray-100">
@@ -132,14 +133,33 @@
 
             <!-- 3. Monthly Data Cards -->
             <div id="data-content" class="space-y-4 hidden">
+                
+                <!-- Zero Data Alert Banner -->
+                <div id="zero-data-alert" class="hidden bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-blue-700 font-medium">
+                                ท่านไม่มียอดรายได้ และค่าเสียหาย ในเดือนนี้
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Grid for Cash & Credit -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-red-500">
-                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider">1.1 ค่าเสียหาย Short Cash</h3>
+                        <!-- ตัด 1.1 ออก -->
+                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider">ค่าเสียหาย Short Cash</h3>
                         <p class="text-2xl font-bold text-gray-800 mt-1"><span id="val-short-cash">0</span> <span class="text-sm text-gray-400 font-normal">บาท</span></p>
                     </div>
                     <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-orange-500">
-                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider">1.2 ค่าเสียหาย Short Credit</h3>
+                        <!-- ตัด 1.2 ออก -->
+                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider">ค่าเสียหาย Short Credit</h3>
                         <p class="text-2xl font-bold text-gray-800 mt-1"><span id="val-short-credit">0</span> <span class="text-sm text-gray-400 font-normal">บาท</span></p>
                     </div>
                 </div>
@@ -147,10 +167,12 @@
                 <!-- Refund Card with Verification -->
                 <div class="bg-white p-0 rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                     <div class="p-5 border-l-4 border-green-500">
-                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider">2. ยอดเงินคืนเดือนนี้ (Refund)</h3>
+                        <!-- ตัด 2. ออก -->
+                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider">ยอดเงินคืนเดือนนี้ (Refund)</h3>
                         <p class="text-3xl font-bold text-green-600 mt-1"><span id="val-refund">0</span> <span class="text-sm text-gray-400 font-normal">บาท</span></p>
                     </div>
                     
+                    <!-- ลบยอดปริมาณงานรายเดือนออก -->
 
                     <!-- Verification Section -->
                     <div id="verify-section" class="bg-white px-5 py-4 border-t border-gray-200">
@@ -159,7 +181,7 @@
                             ยืนยันความถูกต้องของข้อมูลเดือนนี้:
                         </p>
                         
-                        <!-- ปุ่มกด (จะถูกซ่อนเมื่อกดแล้ว) -->
+                        <!-- ปุ่มกด -->
                         <div id="verify-buttons" class="flex gap-3">
                             <button onclick="verifyData('correct')" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-lg font-bold shadow-sm transition flex justify-center items-center gap-2 active:scale-95">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -171,7 +193,7 @@
                             </button>
                         </div>
 
-                        <!-- สถานะหลังกด (จะแสดงเมื่อมีข้อมูล status) -->
+                        <!-- สถานะหลังกด -->
                         <div id="verify-status" class="hidden text-center p-3 rounded-lg border transition-all">
                             <p class="font-bold text-lg" id="status-text">...</p>
                             <p class="text-xs text-gray-500 mt-1 flex justify-center items-center gap-1">
@@ -189,12 +211,10 @@
                 <p class="text-gray-500 text-sm">กำลังเชื่อมต่อฐานข้อมูล...</p>
             </div>
             
-            <!-- No Data State -->
+            <!-- No Data State (ใช้กรณี Error จริงๆ) -->
             <div id="no-data" class="text-center py-12 hidden bg-white rounded-xl border-2 border-dashed border-gray-200">
-                <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                <p class="text-gray-500 font-medium">ไม่พบข้อมูลของเดือนนี้</p>
-                <p class="text-gray-400 text-xs mt-2 font-mono bg-gray-100 inline-block px-2 py-1 rounded" id="debug-path">Path: ...</p>
-                <p class="text-gray-400 text-xs mt-2">กรุณาตรวจสอบว่า Admin ได้กดซิงค์ข้อมูลแล้ว</p>
+                <p class="text-gray-500 font-medium">เกิดข้อผิดพลาดในการโหลด</p>
+                <p class="text-gray-400 text-xs mt-2" id="debug-error"></p>
             </div>
         </div>
     </div>
@@ -217,7 +237,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, onSnapshot, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCl-1kUPk7YP0AZoKqVs9d_Z7vWeXytQnk",
@@ -236,6 +256,8 @@
 
         let currentUser = null;
         let currentDocPath = null;
+        let currentYear = null;
+        let currentMonth = null;
         let unsubscribeData = null;
         let unsubscribeUser = null;
 
@@ -253,19 +275,14 @@
                 const empId = user.email.split('@')[0];
                 const userDocRef = doc(db, `artifacts/${APP_ID}/users/${empId}`);
 
-                // ฟังยอดรวมและชื่อพนักงาน (Realtime)
                 unsubscribeUser = onSnapshot(userDocRef, (snap) => {
                     if (snap.exists()) {
                         const d = snap.data();
                         document.getElementById('user-info').textContent = `${d.name || empId} (${empId})`;
-                        
-                        // อัปเดตยอดรวม
                         updateVal('total-cash', d.totalShortCash || 0);
                         updateVal('total-credit', d.totalShortCredit || 0);
                         updateVal('total-refund', d.totalRefund || 0);
-                        updateVal('total-work', d.totalWorkVolume || 0); // ยอดงานรวม
-                        
-                        // แสดงจำนวนครั้ง
+                        // ลบการอัปเดตยอดงานรวม
                         document.getElementById('count-cash').textContent = (d.totalCountShortCash || 0).toLocaleString();
                         document.getElementById('count-credit').textContent = (d.totalCountShortCredit || 0).toLocaleString();
                     } else {
@@ -295,8 +312,11 @@
             
             const empId = currentUser.email.split('@')[0];
             currentDocPath = `artifacts/${APP_ID}/users/${empId}/records/${yearMonth}`;
-            document.getElementById('debug-path').innerText = `Checking: .../records/${yearMonth}`;
             
+            const parts = yearMonth.split('-');
+            currentYear = parseInt(parts[0]);
+            currentMonth = parseInt(parts[1]);
+
             document.getElementById('dash-loading').classList.remove('hidden');
             document.getElementById('data-content').classList.add('hidden');
             document.getElementById('no-data').classList.add('hidden');
@@ -304,29 +324,36 @@
             unsubscribeData = onSnapshot(doc(db, currentDocPath), (docSnap) => {
                 document.getElementById('dash-loading').classList.add('hidden');
                 
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    document.getElementById('data-content').classList.remove('hidden');
-                    
-                    updateVal('val-short-cash', data.shortCash || 0);
-                    updateVal('val-short-credit', data.shortCredit || 0);
-                    updateVal('val-refund', data.refund || 0);
-                    updateVal('val-work-volume', data.workVolume || 0); // ยอดงานรายเดือน
-                    
-                    // Render Verification UI
-                    renderVerifyUI(data.status, data.confirmedAt);
-
+                const exists = docSnap.exists();
+                const data = exists ? docSnap.data() : {};
+                
+                document.getElementById('data-content').classList.remove('hidden');
+                
+                const sc = data.shortCash || 0;
+                const scr = data.shortCredit || 0;
+                const ref = data.refund || 0;
+                
+                updateVal('val-short-cash', sc);
+                updateVal('val-short-credit', scr);
+                updateVal('val-refund', ref);
+                // ลบการอัปเดตยอดงานรายเดือน
+                
+                if (sc === 0 && scr === 0 && ref === 0) {
+                    document.getElementById('zero-data-alert').classList.remove('hidden');
                 } else {
-                    document.getElementById('no-data').classList.remove('hidden');
+                    document.getElementById('zero-data-alert').classList.add('hidden');
                 }
+                
+                renderVerifyUI(data.status, data.confirmedAt);
+
             }, (error) => {
                 console.error(error);
                 document.getElementById('dash-loading').classList.add('hidden');
                 document.getElementById('no-data').classList.remove('hidden');
+                document.getElementById('debug-error').innerText = error.message;
             });
         }
 
-        // --- VERIFY UI ---
         function renderVerifyUI(status, timestamp) {
             const btnDiv = document.getElementById('verify-buttons');
             const statusDiv = document.getElementById('verify-status');
@@ -336,9 +363,7 @@
             if (status) {
                 btnDiv.classList.add('hidden');
                 statusDiv.classList.remove('hidden');
-                
                 const dateStr = timestamp ? new Date(timestamp.seconds * 1000).toLocaleString('th-TH') : '-';
-                
                 if (status === 'correct') {
                     statusDiv.className = "text-center p-4 rounded-lg border bg-green-50 border-green-200 shadow-sm";
                     statusText.innerHTML = "<span class='text-green-700 flex justify-center items-center gap-2'><svg class='w-6 h-6' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'></path></svg> ยืนยันข้อมูลถูกต้อง</span>";
@@ -353,17 +378,21 @@
             }
         }
 
-        // ฟังก์ชัน Global สำหรับปุ่มกด
         window.verifyData = async (status) => {
             if (!currentDocPath) return;
             const msg = status === 'correct' ? 'ยืนยันว่าข้อมูลถูกต้อง?' : 'ต้องการแจ้งว่าข้อมูล "ไม่" ถูกต้อง?';
             if (!confirm(msg)) return;
 
             try {
-                await updateDoc(doc(db, currentDocPath), {
+                await setDoc(doc(db, currentDocPath), {
                     status: status,
-                    confirmedAt: serverTimestamp()
-                });
+                    confirmedAt: serverTimestamp(),
+                    year: currentYear,
+                    month: currentMonth,
+                    shortCash: 0,
+                    shortCredit: 0,
+                    refund: 0
+                }, { merge: true });
             } catch (e) {
                 alert("Error: " + e.message);
             }
@@ -374,21 +403,14 @@
             if(el) el.textContent = num.toLocaleString('th-TH', {minimumFractionDigits: 0});
         }
 
-        // --- EVENTS ---
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btn-login-submit');
             const errEl = document.getElementById('login-error');
-            
             btn.disabled = true; btn.innerText = "กำลังตรวจสอบ..."; errEl.classList.add('hidden');
-
             const id = document.getElementById('login-id').value.trim();
             let pass = document.getElementById('login-pass').value.trim();
-            
-            if (pass.length > 0 && pass.length < 6) {
-                while (pass.length < 6) pass += '0';
-            }
-
+            if (pass.length > 0 && pass.length < 6) { while (pass.length < 6) pass += '0'; }
             try {
                 await signInWithEmailAndPassword(auth, `${id}@company.demo`, pass);
             } catch (err) {
@@ -401,17 +423,12 @@
             }
         });
 
-        document.getElementById('btn-logout').addEventListener('click', () => {
-            if(confirm('ต้องการออกจากระบบ?')) signOut(auth);
-        });
-
+        document.getElementById('btn-logout').addEventListener('click', () => { if(confirm('ต้องการออกจากระบบ?')) signOut(auth); });
         document.getElementById('month-picker').addEventListener('change', (e) => loadData(e.target.value));
 
-        // Change Password Logic
         const modal = document.getElementById('pass-modal');
         document.getElementById('btn-change-pass').addEventListener('click', () => modal.classList.remove('hidden'));
         document.getElementById('btn-close-modal').addEventListener('click', () => modal.classList.add('hidden'));
-        
         document.getElementById('pass-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const newPass = document.getElementById('new-pass').value;
@@ -433,5 +450,3 @@
     </script>
 </body>
 </html>
-
-
