@@ -33,7 +33,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">รหัสผ่าน</label>
                     <input type="password" id="login-pass" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="กรอกรหัสผ่าน" required>
-                    <p class="text-xs text-gray-400 mt-1">*กรณีลืมรหัสผ่าน ติดต่อ Admin</p>
+                    <p class="text-xs text-gray-500 mt-2 text-right cursor-default hover:text-gray-700 transition">กรณีลืมรหัสผ่าน ติดต่อ Admin</p>
                 </div>
                 <button type="submit" id="btn-login-submit" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-md">
                     เข้าสู่ระบบ
@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="flex gap-2">
-                    <button id="btn-change-pass" class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-sm transition backdrop-blur-sm">เปลี่ยนรหัสผ่าน</button>
+                    <button id="btn-change-pass" class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-sm transition backdrop-blur-sm">รหัสผ่าน</button>
                     <button id="btn-logout" class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-sm transition shadow-sm">ออก</button>
                 </div>
             </div>
@@ -78,28 +78,53 @@
                 <!-- Grid แสดง 3 หัวข้อ -->
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
                     <!-- Short Cash -->
-                    <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm border border-white/10">
-                        <p class="text-xs opacity-75 mb-1 uppercase tracking-wider">Short Cash</p>
-                        <p class="text-2xl font-bold"><span id="total-cash">0</span></p>
-                        <p class="text-xs opacity-60">บาท</p>
+                    <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm border border-white/10 flex flex-col justify-between">
+                        <div>
+                            <p class="text-xs opacity-75 mb-1 uppercase tracking-wider">Short Cash</p>
+                            <p class="text-2xl font-bold"><span id="total-cash">0</span></p>
+                            <p class="text-xs opacity-60">บาท</p>
+                        </div>
+                        <!-- แสดงจำนวนครั้ง -->
+                        <div class="mt-2 pt-2 border-t border-white/10">
+                            <p class="text-xs font-medium text-yellow-300">
+                                <span id="count-cash">0</span> ครั้ง
+                            </p>
+                        </div>
                     </div>
 
                     <!-- Short Credit -->
-                    <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm border border-white/10">
-                        <p class="text-xs opacity-75 mb-1 uppercase tracking-wider">Short Credit</p>
-                        <p class="text-2xl font-bold"><span id="total-credit">0</span></p>
-                        <p class="text-xs opacity-60">บาท</p>
+                    <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm border border-white/10 flex flex-col justify-between">
+                        <div>
+                            <p class="text-xs opacity-75 mb-1 uppercase tracking-wider">Short Credit</p>
+                            <p class="text-2xl font-bold"><span id="total-credit">0</span></p>
+                            <p class="text-xs opacity-60">บาท</p>
+                        </div>
+                        <!-- แสดงจำนวนครั้ง -->
+                        <div class="mt-2 pt-2 border-t border-white/10">
+                            <p class="text-xs font-medium text-yellow-300">
+                                <span id="count-credit">0</span> ครั้ง
+                            </p>
+                        </div>
                     </div>
 
                     <!-- Refund -->
-                    <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm border border-white/10">
-                        <p class="text-xs opacity-75 mb-1 uppercase tracking-wider">Refund</p>
-                        <p class="text-2xl font-bold"><span id="total-refund">0</span></p>
-                        <p class="text-xs opacity-60">บาท</p>
+                    <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm border border-white/10 flex flex-col justify-between">
+                        <div>
+                            <p class="text-xs opacity-75 mb-1 uppercase tracking-wider">Refund</p>
+                            <p class="text-2xl font-bold"><span id="total-refund">0</span></p>
+                            <p class="text-xs opacity-60">บาท</p>
+                        </div>
+                        <div class="mt-2 pt-2 border-t border-white/10">
+                            <p class="text-xs font-medium text-green-300">คืนแล้ว</p>
+                        </div>
                     </div>
                 </div>
                 
-                <!-- ตัดยอดคงเหลือรวมออกตามที่ขอ -->
+                <!-- แสดงยอดปริมาณงานรวม (Total Work Volume) -->
+                <div class="mt-4 pt-3 border-t border-white/10 flex justify-between items-center text-sm">
+                    <span class="opacity-80">ยอดปริมาณงานรวม (Work Volume):</span>
+                    <span class="font-bold text-lg"><span id="total-work">0</span> หน่วย</span>
+                </div>
             </div>
 
             <!-- 2. Month Filter -->
@@ -116,11 +141,11 @@
                 <!-- Grid for Cash & Credit -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-red-500">
-                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider">ค่าเสียหาย Short Cash</h3>
+                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider">1.1 ค่าเสียหาย Short Cash</h3>
                         <p class="text-2xl font-bold text-gray-800 mt-1"><span id="val-short-cash">0</span> <span class="text-sm text-gray-400 font-normal">บาท</span></p>
                     </div>
                     <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-orange-500">
-                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider">ค่าเสียหาย Short Credit</h3>
+                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider">1.2 ค่าเสียหาย Short Credit</h3>
                         <p class="text-2xl font-bold text-gray-800 mt-1"><span id="val-short-credit">0</span> <span class="text-sm text-gray-400 font-normal">บาท</span></p>
                     </div>
                 </div>
@@ -128,14 +153,20 @@
                 <!-- Refund Card with Verification -->
                 <div class="bg-white p-0 rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                     <div class="p-5 border-l-4 border-green-500">
-                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider">ยอดเงินคืนจากค่าเสียหาย Short Credit เดือนนี้ (Refund)</h3>
+                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider">2. ยอดเงินคืนเดือนนี้ (Refund)</h3>
                         <p class="text-3xl font-bold text-green-600 mt-1"><span id="val-refund">0</span> <span class="text-sm text-gray-400 font-normal">บาท</span></p>
-                        
-                        <!-- ตัดยอดคงเหลือรายเดือนออกตามที่ขอ -->
                     </div>
                     
+                    <!-- แสดงยอดปริมาณงานรายเดือน -->
+                    <div class="bg-gray-50 px-5 py-3 border-t border-gray-200">
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="font-medium text-gray-600">ปริมาณงานเดือนนี้:</span>
+                            <span class="font-bold text-gray-800"><span id="val-work-volume">0</span> หน่วย</span>
+                        </div>
+                    </div>
+
                     <!-- Verification Section -->
-                    <div id="verify-section" class="bg-gray-50 px-5 py-4 border-t border-gray-200">
+                    <div id="verify-section" class="bg-white px-5 py-4 border-t border-gray-200">
                         <p class="text-sm text-gray-600 mb-3 font-medium flex items-center gap-2">
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             ยืนยันความถูกต้องของข้อมูลเดือนนี้:
@@ -241,10 +272,15 @@
                         const d = snap.data();
                         document.getElementById('user-info').textContent = `${d.name || empId} (${empId})`;
                         
-                        // อัปเดตยอดรวมทั้ง 3 รายการที่ Card บนสุด
+                        // อัปเดตยอดรวม
                         updateVal('total-cash', d.totalShortCash || 0);
                         updateVal('total-credit', d.totalShortCredit || 0);
                         updateVal('total-refund', d.totalRefund || 0);
+                        updateVal('total-work', d.totalWorkVolume || 0); // ยอดงานรวม
+                        
+                        // แสดงจำนวนครั้ง
+                        document.getElementById('count-cash').textContent = (d.totalCountShortCash || 0).toLocaleString();
+                        document.getElementById('count-credit').textContent = (d.totalCountShortCredit || 0).toLocaleString();
                     } else {
                         document.getElementById('user-info').textContent = empId;
                     }
@@ -285,12 +321,10 @@
                     const data = docSnap.data();
                     document.getElementById('data-content').classList.remove('hidden');
                     
-                    const scr = data.shortCredit || 0;
-                    const ref = data.refund || 0;
-                    
                     updateVal('val-short-cash', data.shortCash || 0);
-                    updateVal('val-short-credit', scr);
-                    updateVal('val-refund', ref);
+                    updateVal('val-short-credit', data.shortCredit || 0);
+                    updateVal('val-refund', data.refund || 0);
+                    updateVal('val-work-volume', data.workVolume || 0); // ยอดงานรายเดือน
                     
                     // Render Verification UI
                     renderVerifyUI(data.status, data.confirmedAt);
@@ -412,6 +446,3 @@
     </script>
 </body>
 </html>
-
-
-
