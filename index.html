@@ -33,7 +33,8 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">รหัสผ่าน</label>
                     <input type="password" id="login-pass" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="กรอกรหัสผ่าน" required>
-                    <p class="text-xs text-gray-500 mt-2 text-right cursor-default hover:text-gray-700 transition">กรณีลืมรหัสผ่าน ติดต่อ Admin</p>
+                    <!-- เอาลิงก์ลืมรหัสผ่านออก หรือเปลี่ยนข้อความ -->
+                    <p class="text-xs text-gray-500 mt-2 text-right cursor-default hover:text-gray-700 transition">หากลืมรหัสผ่าน กรุณาติดต่อ Admin</p>
                 </div>
                 <button type="submit" id="btn-login-submit" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-md">
                     เข้าสู่ระบบ
@@ -57,8 +58,8 @@
                     </div>
                 </div>
                 <div class="flex gap-2">
-                    <button id="btn-change-pass" class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-sm transition backdrop-blur-sm">เปลี่ยนรหัสผ่าน</button>
-                    <button id="btn-logout" class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-sm transition shadow-sm">ออก</button>
+                    <!-- ปุ่มเปลี่ยนรหัสผ่านถูกลบออกแล้ว -->
+                    <button id="btn-logout" class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-sm transition shadow-sm">ออกจากระบบ</button>
                 </div>
             </div>
         </nav>
@@ -66,7 +67,7 @@
         <!-- Content -->
         <div class="container mx-auto p-4 max-w-2xl mt-2 space-y-4">
             
-            <!-- 1. TOTAL SUMMARY CARD (Compact Version - Updated Grid) -->
+            <!-- 1. TOTAL SUMMARY CARD -->
             <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl shadow-lg p-4 text-white relative overflow-hidden">
                 <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white opacity-10 rounded-full blur-xl"></div>
                 
@@ -75,9 +76,8 @@
                     ยอดสะสมทั้งหมด (All-time)
                 </h2>
 
-                <!-- Grid แบบ 2x2 (Compact) -->
                 <div class="grid grid-cols-2 gap-2 text-center">
-                    <!-- Work Volume (New) -->
+                    <!-- Work Volume -->
                     <div class="bg-white/20 rounded-lg p-2 backdrop-blur-sm border border-white/20 flex flex-col justify-between col-span-2">
                         <div class="flex justify-between items-center px-2">
                             <p class="text-[10px] opacity-75 uppercase tracking-wider text-left">ปริมาณงานรวม</p>
@@ -107,7 +107,7 @@
                         </div>
                     </div>
 
-                    <!-- Refund (Full Width if needed, or keep in grid) -->
+                    <!-- Refund -->
                     <div class="bg-white/10 rounded-lg p-2 backdrop-blur-sm border border-white/10 flex flex-col justify-between col-span-2">
                          <div class="flex justify-between items-center px-2">
                             <p class="text-[10px] opacity-75 uppercase tracking-wider">Refund คืนแล้ว</p>
@@ -129,7 +129,7 @@
             <!-- 3. Monthly Data Cards -->
             <div id="data-content" class="space-y-3 hidden">
                 
-                <!-- Zero Data Alert Banner -->
+                <!-- Zero Data Alert -->
                 <div id="zero-data-alert" class="hidden bg-blue-50 border-l-4 border-blue-500 p-3 rounded-r-lg">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
@@ -138,14 +138,12 @@
                             </svg>
                         </div>
                         <div class="ml-3">
-                            <p class="text-sm text-blue-700 font-medium">
-                                ไม่พบข้อมูลในเดือนนี้
-                            </p>
+                            <p class="text-sm text-blue-700 font-medium">ไม่พบข้อมูลในเดือนนี้</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Work Volume Card (New) -->
+                <!-- Work Volume -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-500">
                     <div class="flex justify-between items-start">
                         <div>
@@ -158,7 +156,7 @@
                     </div>
                 </div>
 
-                <!-- Grid for Cash & Credit -->
+                <!-- Cash & Credit -->
                 <div class="grid grid-cols-2 gap-3">
                     <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-red-500">
                         <h3 class="text-gray-500 text-[10px] font-bold uppercase tracking-wider">ค่าเสียหาย Short Cash</h3>
@@ -170,21 +168,19 @@
                     </div>
                 </div>
                 
-                <!-- Refund Card with Verification -->
+                <!-- Refund & Verify -->
                 <div class="bg-white p-0 rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                     <div class="p-4 border-l-4 border-green-500">
                         <h3 class="text-gray-500 text-[10px] font-bold uppercase tracking-wider">ยอดเงินคืนเดือนนี้ (Refund)</h3>
                         <p class="text-2xl font-bold text-green-600 mt-1"><span id="val-refund">0</span> <span class="text-xs text-gray-400 font-normal">บาท</span></p>
                     </div>
                     
-                    <!-- Verification Section -->
                     <div id="verify-section" class="bg-white px-4 py-3 border-t border-gray-200">
                         <p class="text-xs text-gray-600 mb-2 font-medium flex items-center gap-1">
                             <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             ยืนยันความถูกต้องของข้อมูลเดือนนี้:
                         </p>
                         
-                        <!-- ปุ่มกด -->
                         <div id="verify-buttons" class="flex gap-2">
                             <button onclick="verifyData('correct')" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg text-sm font-bold shadow-sm transition flex justify-center items-center gap-1 active:scale-95">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -196,7 +192,6 @@
                             </button>
                         </div>
 
-                        <!-- สถานะหลังกด -->
                         <div id="verify-status" class="hidden text-center p-2 rounded-lg border transition-all">
                             <p class="font-bold text-base" id="status-text">...</p>
                             <p class="text-[10px] text-gray-500 mt-0.5 flex justify-center items-center gap-1">
@@ -208,13 +203,11 @@
                 </div>
             </div>
             
-            <!-- Loading State -->
             <div id="dash-loading" class="text-center py-10 hidden">
                 <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-8 w-8 mx-auto mb-2"></div>
                 <p class="text-gray-500 text-xs">กำลังเชื่อมต่อ...</p>
             </div>
             
-            <!-- No Data State -->
             <div id="no-data" class="text-center py-10 hidden bg-white rounded-xl border-2 border-dashed border-gray-200">
                 <p class="text-gray-500 font-medium text-sm">เกิดข้อผิดพลาดในการโหลด</p>
                 <p class="text-gray-400 text-xs mt-1" id="debug-error"></p>
@@ -222,24 +215,9 @@
         </div>
     </div>
 
-    <!-- 3. CHANGE PASSWORD MODAL -->
-    <div id="pass-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 hidden z-50">
-        <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-sm transform transition-all scale-100">
-            <h2 class="text-xl font-bold mb-1 text-gray-800">เปลี่ยนรหัสผ่าน</h2>
-            <p class="text-gray-500 text-sm mb-4">กำหนดรหัสผ่านใหม่เพื่อความปลอดภัย</p>
-            <form id="pass-form" class="space-y-4">
-                <input type="password" id="new-pass" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required minlength="6" placeholder="กรอกรหัสใหม่ (6 ตัวขึ้นไป)">
-                <div class="flex justify-end gap-3 pt-2">
-                    <button type="button" id="btn-close-modal" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition">ยกเลิก</button>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium shadow-lg shadow-blue-200 transition">บันทึกรหัสผ่าน</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, onSnapshot, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -264,7 +242,6 @@
         let unsubscribeData = null;
         let unsubscribeUser = null;
 
-        // --- AUTH STATE ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -285,7 +262,7 @@
                         updateVal('total-cash', d.totalShortCash || 0);
                         updateVal('total-credit', d.totalShortCredit || 0);
                         updateVal('total-refund', d.totalRefund || 0);
-                        updateVal('total-work', d.totalWorkVolume || 0); // เพิ่ม: ยอดสะสมปริมาณงาน
+                        updateVal('total-work', d.totalWorkVolume || 0);
                         document.getElementById('count-cash').textContent = (d.totalCountShortCash || 0).toLocaleString();
                         document.getElementById('count-credit').textContent = (d.totalCountShortCredit || 0).toLocaleString();
                     } else {
@@ -308,7 +285,6 @@
             }
         });
 
-        // --- LOAD MONTHLY DATA ---
         function loadData(yearMonth) { 
             if (!yearMonth) return;
             if (unsubscribeData) unsubscribeData();
@@ -335,12 +311,12 @@
                 const sc = data.shortCash || 0;
                 const scr = data.shortCredit || 0;
                 const ref = data.refund || 0;
-                const work = data.workVolume || 0; // เพิ่ม: ปริมาณงานรายเดือน
+                const work = data.workVolume || 0;
                 
                 updateVal('val-short-cash', sc);
                 updateVal('val-short-credit', scr);
                 updateVal('val-refund', ref);
-                updateVal('val-work', work); // เพิ่ม: อัปเดต UI
+                updateVal('val-work', work);
                 
                 if (sc === 0 && scr === 0 && ref === 0 && work === 0) {
                     document.getElementById('zero-data-alert').classList.remove('hidden');
@@ -393,7 +369,6 @@
                     confirmedAt: serverTimestamp(),
                     year: currentYear,
                     month: currentMonth,
-                    // ลบการ Hardcode reset ค่าเป็น 0 ออก เพื่อป้องกันข้อมูลหาย
                 }, { merge: true });
             } catch (e) {
                 alert("Error: " + e.message);
@@ -427,28 +402,7 @@
 
         document.getElementById('btn-logout').addEventListener('click', () => { if(confirm('ต้องการออกจากระบบ?')) signOut(auth); });
         document.getElementById('month-picker').addEventListener('change', (e) => loadData(e.target.value));
-
-        const modal = document.getElementById('pass-modal');
-        document.getElementById('btn-change-pass').addEventListener('click', () => modal.classList.remove('hidden'));
-        document.getElementById('btn-close-modal').addEventListener('click', () => modal.classList.add('hidden'));
-        document.getElementById('pass-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const newPass = document.getElementById('new-pass').value;
-            try {
-                await updatePassword(currentUser, newPass);
-                alert('เปลี่ยนรหัสผ่านสำเร็จ! กรุณาเข้าสู่ระบบใหม่');
-                modal.classList.add('hidden');
-                document.getElementById('pass-form').reset();
-                signOut(auth);
-            } catch (err) {
-                if (err.code === 'auth/requires-recent-login') {
-                    alert('เพื่อความปลอดภัย กรุณาออกจากระบบและเข้าสู่ระบบใหม่อีกครั้ง ก่อนเปลี่ยนรหัสผ่าน');
-                    modal.classList.add('hidden');
-                } else {
-                    alert('Error: ' + err.message);
-                }
-            }
-        });
+        // ส่วน Modal เปลี่ยนรหัสผ่าน ถูกลบออกแล้ว
     </script>
 </body>
 </html>
