@@ -33,7 +33,6 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">รหัสผ่าน</label>
                     <input type="password" id="login-pass" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="กรอกรหัสผ่าน" required>
-                    <!-- เอาลิงก์ลืมรหัสผ่านออก หรือเปลี่ยนข้อความ -->
                     <p class="text-xs text-gray-500 mt-2 text-right cursor-default hover:text-gray-700 transition">หากลืมรหัสผ่าน กรุณาติดต่อ Admin</p>
                 </div>
                 <button type="submit" id="btn-login-submit" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-md">
@@ -58,7 +57,6 @@
                     </div>
                 </div>
                 <div class="flex gap-2">
-                    <!-- ปุ่มเปลี่ยนรหัสผ่านถูกลบออกแล้ว -->
                     <button id="btn-logout" class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-sm transition shadow-sm">ออกจากระบบ</button>
                 </div>
             </div>
@@ -181,6 +179,7 @@
                             ยืนยันความถูกต้องของข้อมูลเดือนนี้:
                         </p>
                         
+                        <!-- ปุ่มกด (แสดงเมื่อยังไม่ได้ยืนยัน) -->
                         <div id="verify-buttons" class="flex gap-2">
                             <button onclick="verifyData('correct')" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg text-sm font-bold shadow-sm transition flex justify-center items-center gap-1 active:scale-95">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -192,6 +191,7 @@
                             </button>
                         </div>
 
+                        <!-- สถานะ (แสดงเมื่อยืนยันแล้ว) -->
                         <div id="verify-status" class="hidden text-center p-2 rounded-lg border transition-all">
                             <p class="font-bold text-base" id="status-text">...</p>
                             <p class="text-[10px] text-gray-500 mt-0.5 flex justify-center items-center gap-1">
@@ -341,22 +341,56 @@
             const statusTime = document.getElementById('status-time');
 
             if (status) {
+                // แสดงสถานะ พร้อมปุ่มแก้ไข
                 btnDiv.classList.add('hidden');
                 statusDiv.classList.remove('hidden');
                 const dateStr = timestamp ? new Date(timestamp.seconds * 1000).toLocaleString('th-TH') : '-';
+                
+                let iconHtml = '';
+                let textClass = '';
+                let bgClass = '';
+                
                 if (status === 'correct') {
-                    statusDiv.className = "text-center p-3 rounded-lg border bg-green-50 border-green-200 shadow-sm";
-                    statusText.innerHTML = "<span class='text-green-700 flex justify-center items-center gap-1 text-sm'><svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'></path></svg> ยืนยันข้อมูลถูกต้อง</span>";
+                    bgClass = "bg-green-50 border-green-200";
+                    textClass = "text-green-700";
+                    iconHtml = `<svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'></path></svg> ยืนยันข้อมูลถูกต้อง`;
                 } else {
-                    statusDiv.className = "text-center p-3 rounded-lg border bg-red-50 border-red-200 shadow-sm";
-                    statusText.innerHTML = "<span class='text-red-700 flex justify-center items-center gap-1 text-sm'><svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'></path></svg> แจ้งข้อมูลไม่ถูกต้อง</span>";
+                    bgClass = "bg-red-50 border-red-200";
+                    textClass = "text-red-700";
+                    iconHtml = `<svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'></path></svg> แจ้งข้อมูลไม่ถูกต้อง`;
                 }
+                
+                statusDiv.className = `text-center p-3 rounded-lg border shadow-sm ${bgClass}`;
+                
+                // เพิ่มปุ่ม (แก้ไข) ที่นี่
+                statusText.innerHTML = `
+                    <div class="flex flex-col items-center gap-1">
+                        <span class='${textClass} flex items-center gap-1 text-sm font-bold'>${iconHtml}</span>
+                        <button onclick="resetStatus()" class="text-xs text-blue-600 underline hover:text-blue-800 font-medium transition">(แก้ไข/ยกเลิก)</button>
+                    </div>
+                `;
+                
                 statusTime.textContent = "เมื่อ: " + dateStr;
             } else {
+                // แสดงปุ่มให้กดเลือก
                 btnDiv.classList.remove('hidden');
                 statusDiv.classList.add('hidden');
             }
         }
+
+        // ฟังก์ชัน Reset Status (ผูกกับ window เพื่อให้เรียกจาก HTML ได้)
+        window.resetStatus = async () => {
+            if (!confirm('ต้องการยกเลิกสถานะการยืนยัน เพื่อเลือกใหม่ใช่หรือไม่?')) return;
+            try {
+                // ตั้งค่า status เป็น null (หรือลบ field)
+                await setDoc(doc(db, currentDocPath), {
+                    status: null,
+                    confirmedAt: null
+                }, { merge: true });
+            } catch (e) {
+                alert("Error: " + e.message);
+            }
+        };
 
         window.verifyData = async (status) => {
             if (!currentDocPath) return;
@@ -402,7 +436,6 @@
 
         document.getElementById('btn-logout').addEventListener('click', () => { if(confirm('ต้องการออกจากระบบ?')) signOut(auth); });
         document.getElementById('month-picker').addEventListener('change', (e) => loadData(e.target.value));
-        // ส่วน Modal เปลี่ยนรหัสผ่าน ถูกลบออกแล้ว
     </script>
 </body>
 </html>
